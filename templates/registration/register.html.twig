@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<br> <br>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm, { 'attr': {'class': 'needs-validation', 'novalidate': true} }) }}
+        <div class="mb-3">
+            {{ form_row(registrationForm.email, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(registrationForm.nom, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(registrationForm.prenom, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(registrationForm.telephone, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(registrationForm.adresse, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password',
+                'attr': {'class': 'form-control'}
+            }) }}
+        </div>
+        <div class="mb-3 form-check">
+            {{ form_row(registrationForm.agreeTerms, {
+                'label': false,
+                'attr': {'class': 'form-check-input'}
+            }) }}
+            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                Agree to terms
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

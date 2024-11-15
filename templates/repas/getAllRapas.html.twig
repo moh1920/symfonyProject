@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Repas</title>
+</head>
+<body>
+    <h1>repas</h1>
+    <table border="1">
+        <tr>
+            <th>idRepat</th>
+            <th>nomRepat</th>
+        </tr>
+        {% for a in repas %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.nomRepat}}</td>
+            <td>
+                <a href="{{ path('app_editRepas', { 'id': a.id }) }}">Éditer</a> 
+                <a href="{{ path('app_deleteRepas', { 'id': a.id }) }}">delete</a> 
+          </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
