@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\RepatRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RepatRepository::class)]
@@ -13,24 +11,30 @@ class Repat
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id = null;  // Nom de la clé primaire est idRepas
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nomRepat = null;
 
+    #[ORM\Column(type: 'text')]
+    private ?string $description = null;
+
+    #[ORM\Column]
+    private ?bool $estDisponible = null;
+
     /**
-     * @var Collection<int, Menu>
+     * @Assert\GreaterThanOrEqual(
+     *     value = 0,
+     *     message = "Le prix ne peut pas être négatif."
+     * )
      */
-    #[ORM\ManyToMany(targetEntity: Menu::class, mappedBy: 'repats')]
-    private Collection $menus;
+    #[ORM\Column(length: 255)]
+    private ?string $prixRepas = null;
 
-    public function __construct()
-    {
-        $this->menus = new ArrayCollection();
-    }
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
-    // Accesseur pour l'ID
-    public function getId(): ?int  // Mise à jour du nom de la méthode pour refléter le nom de la propriété
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -43,31 +47,55 @@ class Repat
     public function setNomRepat(string $nomRepat): static
     {
         $this->nomRepat = $nomRepat;
+
         return $this;
     }
 
-    /**
-     * @return Collection<int, Menu>
-     */
-    public function getMenus(): Collection
+    public function getDescription(): ?string
     {
-        return $this->menus;
+        return $this->description;
     }
 
-    public function addMenu(Menu $menu): static
+    public function setDescription(string $description): static
     {
-        if (!$this->menus->contains($menu)) {
-            $this->menus->add($menu);
-            $menu->addRepat($this);
-        }
+        $this->description = $description;
+
         return $this;
     }
 
-    public function removeMenu(Menu $menu): static
+    public function isEstDisponible(): ?bool
     {
-        if ($this->menus->removeElement($menu)) {
-            $menu->removeRepat($this);
-        }
+        return $this->estDisponible;
+    }
+
+    public function setEstDisponible(bool $estDisponible): static
+    {
+        $this->estDisponible = $estDisponible;
+
+        return $this;
+    }
+
+    public function getPrixRepas(): ?string
+    {
+        return $this->prixRepas;
+    }
+
+    public function setPrixRepas(string $prixRepas): static
+    {
+        $this->prixRepas = $prixRepas;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
+
         return $this;
     }
 }

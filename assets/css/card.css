@@ -1,0 +1,49 @@
+/* Ajoutez de l'espace entre les cartes */
+.card {
+
+    margin-top: 100px;
+    margin-bottom: 10px;
+    max-width: 50rem;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+  
+  .card:hover {
+    transform: scale(1.02);
+  }
+  .card + .card {
+    margin-top: 0; /* Supprime la marge supérieure de la deuxième carte */
+}
+  
+  .card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #344675;
+  }
+  
+  .card-text {
+    color: #6c757d;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+    margin-right: 5px;
+  }
+  
+  .footer {
+    margin-bottom: 5px;
+    background-color: #f8f9fa;
+    padding: 5px 0;
+    border-top: 1px solid #e7e7e7;
+  }
+  
+  .footer .copyright {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  

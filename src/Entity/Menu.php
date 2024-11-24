@@ -12,86 +12,138 @@ class Menu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nomMenu = null;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $menuNom;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prixMenu = null;
+    #[ORM\Column(type: "text")]
+    private string $menuDescription;
 
-    #[ORM\Column]
-    private ?bool $desponibilite = null;
+    #[ORM\Column(type: "float")]
+    private float $menuPrix;
 
-    /**
-     * @var Collection<int, Repat>
-     */
-    #[ORM\ManyToMany(targetEntity: Repat::class, inversedBy: 'menus')]
-    private Collection $repats;
+    #[ORM\Column(type: "boolean")]
+    private bool $menuDisponible;
 
-    public function __construct()
+    #[ORM\Column(type: "datetime")]
+    private \DateTimeInterface $menuDateCreation;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $menuDateExpiration = null;
+
+    #[ORM\ManyToMany(targetEntity: Repat::class)]
+    #[ORM\JoinTable(name: 'menu_repat')] // Nom de la table intermédiaire
+    private Collection $repas;
+
+
+    public function __construct(float $menuPrix = 0)
     {
-        $this->repats = new ArrayCollection();
+        $this->repas = new ArrayCollection();
+        $this->menuPrix = $menuPrix; // Initialisation dans le constructeur
+
     }
 
     public function getId(): ?int
     {
-        return $this->id; // Correction : Utilisation de idMenu
+        return $this->id;
+    }
+    public function getMenuNom(): string
+    {
+        return $this->menuNom;
     }
 
-    public function getNomMenu(): ?string
+    public function setMenuNom(string $menuNom): self
     {
-        return $this->nomMenu;
-    }
+        $this->menuNom = $menuNom;
 
-    public function setNomMenu(string $nomMenu): static
-    {
-        $this->nomMenu = $nomMenu;
         return $this;
     }
 
-    public function getPrixMenu(): ?string
+    public function getMenuDescription(): string
     {
-        return $this->prixMenu;
+        return $this->menuDescription;
     }
 
-    public function setPrixMenu(string $prixMenu): static
+    public function setMenuDescription(string $menuDescription): self
     {
-        $this->prixMenu = $prixMenu;
+        $this->menuDescription = $menuDescription;
+
         return $this;
     }
 
-    public function isDesponibilite(): ?bool
+    public function getMenuPrix(): float
     {
-        return $this->desponibilite;
+        return $this->menuPrix;
     }
 
-    public function setDesponibilite(bool $desponibilite): static
+    public function setMenuPrix(float $menuPrix): self
     {
-        $this->desponibilite = $desponibilite;
+        $this->menuPrix = $menuPrix;
+
         return $this;
     }
 
-    /**
+    public function isMenuDisponible(): bool
+    {
+        return $this->menuDisponible;
+    }
+
+    public function setMenuDisponible(bool $menuDisponible): self
+    {
+        $this->menuDisponible = $menuDisponible;
+
+        return $this;
+    }
+
+    public function getMenuDateCreation(): \DateTimeInterface
+    {
+        return $this->menuDateCreation;
+    }
+
+    public function setMenuDateCreation(\DateTimeInterface $menuDateCreation): self
+    {
+        $this->menuDateCreation = $menuDateCreation;
+
+        return $this;
+    }
+
+    public function getMenuDateExpiration(): ?\DateTimeInterface
+    {
+        return $this->menuDateExpiration;
+    }
+
+    public function setMenuDateExpiration(?\DateTimeInterface $menuDateExpiration): self
+    {
+        $this->menuDateExpiration = $menuDateExpiration;
+
+        return $this;
+    }
+
+       /**
      * @return Collection<int, Repat>
      */
-    public function getRepats(): Collection
+    public function getRepas(): Collection
     {
-        return $this->repats;
+        return $this->repas;
     }
+
 
     public function addRepat(Repat $repat): static
     {
-        if (!$this->repats->contains($repat)) {
-            $this->repats->add($repat);
+        if (!$this->repas->contains($repat)) {
+            $this->repas->add($repat);
         }
+
         return $this;
     }
 
     public function removeRepat(Repat $repat): static
     {
-        $this->repats->removeElement($repat);
+        $this->repas->removeElement($repat);
+
         return $this;
     }
+     
 }

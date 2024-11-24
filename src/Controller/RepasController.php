@@ -7,7 +7,9 @@ use App\Form\RepasType; // Assurez-vous que le type de formulaire est importé
 use App\Repository\RepatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType; // Import de SubmitType
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,27 +25,49 @@ class RepasController extends AbstractController
         ]);
     }
 
-    #[Route('/addRepas', name: 'app_addRepas')]
-    public function addRepas(Request $request, EntityManagerInterface $entityManager): Response
-    {
+        #[Route('/addRepas', name: 'app_addRepas')]    
+    public function addRepas(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        #[Autowire('%images_dir%')] string $imageDir
+    ): Response {
         $repas = new Repat();
 
         // Création du formulaire avec RepatType et ajout d'un bouton Submit
         $form = $this->createForm(RepasType::class, $repas);
-        $form->add('Ajouter', SubmitType::class, ['label' => 'Ajouter un repas']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($repas);
-            $entityManager->flush();
+            $repas = $form->getData();
+            
 
-            return $this->redirectToRoute('app_getAllRapas');
+            // Gestion de l'image
+            if ($image = $form['image']->getData()) {
+                $fileName = uniqid() . '.' . $image->guessExtension(); // Génère un nom unique
+                $image->move($imageDir, $fileName);
+                $repas->setImage($fileName);
+            }
+            
+            if($repas->getPrixRepas() > 1){
+                 // Sauvegarde de l'entité
+                 $entityManager->persist($repas);
+                 $entityManager->flush();
+                 $this->addFlash('success', 'Le repas a été ajouté avec succès.');
+
+                 // Redirection vers une autre page (par exemple, la liste des repas)
+                 return $this->redirectToRoute('app_page_admin_repas');
+
+            }
+           
+            
         }
 
+        // Retourner le formulaire pour l'affichage
         return $this->render('repas/addRepas.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
     #[Route("/getAllRapas", name:"app_getAllRapas")]
     public function getAllRapas(RepatRepository $repatRepository): Response
     {
@@ -63,10 +87,13 @@ class RepasController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_getAllRapas');
+        return $this->redirectToRoute('app_page_admin_repas');
     }
     #[Route("/editRepas/{id}", name:"app_editRepas")]
-    public function edit(RepatRepository $repatRepository, EntityManagerInterface $entityManager, $id, Request $request)
+    public function edit(RepatRepository $repatRepository, 
+    EntityManagerInterface $entityManager,
+     $id, Request $request,
+     #[Autowire('%images_dir%')] string $imageDir)
     {
         // Récupération de l'entité
         $repas = $repatRepository->find($id);
@@ -78,15 +105,22 @@ class RepasController extends AbstractController
     
         // Création du formulaire
         $form = $this->createForm(RepasType::class, $repas);
-        $form->add('update', SubmitType::class);
         $form->handleRequest($request);
     
         // Traitement du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            $repas = $form->getData();
+
+            // Gestion de l'image
+            if ($image = $form['image']->getData()) {
+                $fileName = uniqid() . '.' . $image->guessExtension(); // Génère un nom unique
+                $image->move($imageDir, $fileName);
+                $repas->setImage($fileName);
+            }
             $entityManager->persist($repas);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_getAllRapas');
+            return $this->redirectToRoute('app_page_admin_repas');
         }
     
         // Rendu du formulaire

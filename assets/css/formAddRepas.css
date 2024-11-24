@@ -1,0 +1,42 @@
+/* public/css/styles.css */
+.custom-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-form input, .custom-form select, .custom-form textarea {
+    border-radius: 4px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+
+.custom-form input:focus, .custom-form select:focus, .custom-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.custom-form .form-group {
+    margin-bottom: 15px;
+}
+
+.custom-form .form-control-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.custom-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-form button:hover {
+    background-color: #0056b3;
+}

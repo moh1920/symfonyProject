@@ -1,0 +1,23 @@
+.custom-form {
+    margin: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-control-file {
+    margin-top: 10px;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
