@@ -22,44 +22,57 @@
 
 <body class="g-sidenav-show bg-gray-100">
   <!-- Sidebar -->
-  <div class="min-height-300 bg-dark position-absolute w-100"></div>
-  <!-- Main Content -->
+<div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+    <span class="mask bg-primary opacity-6"></span>
+  </div>  <!-- Main Content -->
   <main class="main-content position-relative border-radius-lg">
-   <!-- Navbar -->
-<nav class="navbar navbar-expand-lg blur border-radius-lg fixed-top z-index-3 shadow py-2">
-  <div class="container-fluid">
-    <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="{{ path('dashboard') }}">List des Repas</a>
-    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon mt-2">
-        <span class="navbar-toggler-bar bar1"></span>
-        <span class="navbar-toggler-bar bar2"></span>
-        <span class="navbar-toggler-bar bar3"></span>
-      </span>
-    </button>
-    <div class="collapse navbar-collapse" id="navigation">
-      <ul class="navbar-nav mx-auto">
+  <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
+          <div class="container-fluid">
+            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href={{path('dashboard')}}>
+             Profile
+            </a>
+            <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navigation">
+              <ul class="navbar-nav mx-auto">
+                
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href={{path('app_getAllMenu')}}>
+                    <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
+                    Menu
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link me-2" href={{path('app_profile')}}>
+                    <i class="fa fa-user opacity-6 text-dark me-1"></i>
+                    Profile
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link me-2" href={{path('app_sign_up')}}>
+                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                    Sign Up
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link me-2" href={{path('app_sign_in')}}>
+                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                    Sign In
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
         
-        <li class="nav-item">
-          <a class="nav-link me-2" href="{{ path('app_profile') }}">
-            <i class="fa fa-user opacity-6 text-dark me-1"></i> Profile
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link me-2" href="{{ path('app_sign_up') }}">
-            <i class="fas fa-user-circle opacity-6 text-dark me-1"></i> Sign Up
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link me-2" href="{{ path('app_sign_in') }}">
-            <i class="fas fa-key opacity-6 text-dark me-1"></i> Sign In
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<!-- End Navbar -->
-
  <!-- Content -->
 <div class="container-fluid py-4">
   <div class="row">

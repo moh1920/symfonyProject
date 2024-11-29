@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Menu;
+use App\Repository\RepatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class PageAdminMenuController extends AbstractController
 {
     #[Route('/admin/menus', name: 'app_page_admin_menu')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager , RepatRepository $repatRepository): Response
     {
         // Récupération du terme de recherche depuis la requête
         $searchTerm = $request->query->get('search', '');
@@ -30,7 +31,9 @@ class PageAdminMenuController extends AbstractController
 
         // Exécuter la requête pour obtenir les résultats
         $menus = $queryBuilder->getQuery()->getResult();
+        $nombreMenu = 0;
         foreach ($menus as $key => $menu) {
+            $nombreMenu ++ ;
             // Récupérer la collection des repas pour ce menu
             $listOfRepas = $menu->getRepas();
             
@@ -44,13 +47,22 @@ class PageAdminMenuController extends AbstractController
                 unset($menus[$key]); // Utilisation de unset() pour retirer l'élément du tableau
             }
         }
-        
+        $repas = $repatRepository->findAll();
+        $totalRepas = 0 ;
+        foreach ($repas as $repas){
+            if($repas->isEstDisponible()==true){
+                $totalRepas ++ ;
+            }
+        }
 
         // Retourner la vue avec les menus
         return $this->render('page_admin_menu/tablesMenu.html.twig', [
             'menus' => $menus,
             'searchTerm' => $searchTerm,
+            'nombreMenu' => $nombreMenu,
+            'totalRepas' => $totalRepas,
         ]);
     }
+
     
 }

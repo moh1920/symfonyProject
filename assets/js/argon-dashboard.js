@@ -228,7 +228,58 @@ function sidebarType(a) {
     }
   }
 }
+function toggleSidebarType() {
+    // Get the sidebar and the body element
+    var sidebar = document.querySelector('.sidenav');
+    var body = document.querySelector('body');
+    
+    // Check if the body has the dark-version class
+    var bodyWhite = document.querySelector('body:not(.dark-version)');
+    var bodyDark = body.classList.contains('dark-version');
+    
+    // Toggle between 'bg-white' and 'bg-default'
+    if (sidebar.classList.contains('bg-white')) {
+      sidebar.classList.remove('bg-white');
+      sidebar.classList.add('bg-default');
+    } else {
+      sidebar.classList.remove('bg-default');
+      sidebar.classList.add('bg-white');
+    }
 
+    // Toggle the active state on the button
+    var button = document.getElementById('sidebarToggle');
+    button.classList.toggle('active');
+
+    // Handle text color changes
+    if (sidebar.classList.contains('bg-white') || sidebar.classList.contains('bg-transparent')) {
+      var textWhites = document.querySelectorAll('.sidenav .text-white:not(.nav-link-text):not(.active)');
+      for (let i = 0; i < textWhites.length; i++) {
+        textWhites[i].classList.remove('text-white');
+        textWhites[i].classList.add('text-dark');
+      }
+    } else {
+      var textDarks = document.querySelectorAll('.sidenav .text-dark');
+      for (let i = 0; i < textDarks.length; i++) {
+        textDarks[i].classList.add('text-white');
+        textDarks[i].classList.remove('text-dark');
+      }
+    }
+
+    // Handle the logo color change based on sidebar theme
+    var navbarBrand = document.querySelector('.navbar-brand-img');
+    var navbarBrandImg = navbarBrand.src;
+    if ((sidebar.classList.contains('bg-transparent') || sidebar.classList.contains('bg-white')) && bodyWhite) {
+      if (navbarBrandImg.includes('logo-ct.png')) {
+        var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
+        navbarBrand.src = navbarBrandImgNew;
+      }
+    } else {
+      if (navbarBrandImg.includes('logo-ct-dark.png')) {
+        var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
+        navbarBrand.src = navbarBrandImgNew;
+      }
+    }
+  }
 // Set Navbar Fixed
 function navbarFixed(el) {
   let classes = ['position-sticky', 'blur', 'shadow-blur', 'mt-4', 'left-auto', 'top-1', 'z-index-sticky'];

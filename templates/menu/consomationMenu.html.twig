@@ -1,0 +1,52 @@
+{# templates/menu/consommation_menu.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consommation de Menus</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h2>Consommation de menus par semaine</h2>
+
+<div>
+    <canvas id="consommationMenuChart" width="600" height="400"></canvas>
+</div>
+
+<script>
+    // Récupération des données passées depuis Symfony
+    const semaines = {{ semaines|json_encode|raw }};  // Semaine 1, Semaine 2, ...
+    const consommation = {{ consommation|json_encode|raw }};  // Consommation des repas par semaine
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('consommationMenuChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',  // Type de graphique (peut être 'bar' pour un graphique en barres)
+            data: {
+                labels: semaines,  // Les étiquettes (semaines)
+                datasets: [{
+                    label: 'Consommation de menus par semaine',
+                    data: consommation,  // Les données de consommation
+                    fill: false,  // Remplir sous la courbe (false pour ligne sans remplissage)
+                    borderColor: 'rgba(75, 192, 192, 1)',  // Couleur de la ligne
+                    borderWidth: 2,  // Largeur de la ligne
+                    tension: 0.1  // Lissage de la courbe
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true  // Commencer l'axe Y à zéro
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
